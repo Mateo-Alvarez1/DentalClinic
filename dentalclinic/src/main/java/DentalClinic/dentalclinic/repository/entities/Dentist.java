@@ -32,7 +32,7 @@ public class Dentist{
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column()
     private String license;
 
     @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
