@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collection;
 
 @RestController
@@ -31,7 +32,7 @@ public class PatientController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<String> createPatient(@RequestBody PatientDto patientDto) throws ObjectAlreadyExistException {
+    public ResponseEntity<String> createPatient(@RequestBody PatientDto patientDto, Principal p) throws ObjectAlreadyExistException {
         patientService.createPatient(patientDto);
         return ResponseEntity.ok("Patient " + patientDto.getFirstname() + " successfully persist");
     }

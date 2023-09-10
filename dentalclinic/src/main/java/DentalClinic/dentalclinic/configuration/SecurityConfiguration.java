@@ -36,8 +36,6 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/v3/api-docs.yaml").permitAll();
                     auth.requestMatchers("/swagger-ui/**").permitAll();
                     auth.requestMatchers("/webjars/springfox-swagger-ui/**").permitAll();
-                    auth.requestMatchers("api/v1/patients/**").permitAll();
-                    auth.requestMatchers("api/v1/dentists/**").permitAll();
                     auth.anyRequest().authenticated();
                 }).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
