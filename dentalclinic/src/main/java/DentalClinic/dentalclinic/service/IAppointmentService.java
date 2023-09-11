@@ -14,8 +14,8 @@ public interface IAppointmentService {
     Appointment updateAppointment(AppointmentDto appointmentDto , Long id) throws ResourceNotFoundException;
     void deleteAppointment( Long id) throws ResourceNotFoundException;
     Collection<AppointmentDto> getAllAppointments() throws ResourceNotFoundException;
-    Collection<AppointmentDto> findAppointmentByPatient(PatientDto patientDto) throws ResourceNotFoundException;
-    Collection<AppointmentDto> findAppointmentByDentist(DentistDto dentistDto) throws ResourceNotFoundException;
+    Collection<AppointmentDto> findAppointmentByPatientId(Long patientId) throws ResourceNotFoundException;
+    Collection<AppointmentDto> findAppointmentByDentistId(Long dentistId) throws ResourceNotFoundException;
 
 
 }

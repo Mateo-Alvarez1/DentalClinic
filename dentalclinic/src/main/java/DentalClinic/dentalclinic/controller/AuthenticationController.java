@@ -6,6 +6,7 @@ import DentalClinic.dentalclinic.model.AuthenticationResponse;
 import DentalClinic.dentalclinic.model.RefreshTokenRequest;
 import DentalClinic.dentalclinic.model.RegisterRequest;
 import DentalClinic.dentalclinic.repository.entities.RefreshToken;
+import DentalClinic.dentalclinic.repository.entities.Role;
 import DentalClinic.dentalclinic.service.AuthenticationService;
 import DentalClinic.dentalclinic.service.JwtService;
 import DentalClinic.dentalclinic.service.RefreshTokenService;
@@ -57,6 +58,7 @@ public class AuthenticationController {
                     return ResponseEntity.ok(AuthenticationResponse.builder()
                             .accessToken(accessToken)
                             .token(refreshTokenRequest.getToken())
+                            .role(Role.valueOf(refreshTokenRequest.getRole()))
                             .build());
                 })
                 .orElseThrow(() -> new RuntimeException("Refresh token not found in database"));

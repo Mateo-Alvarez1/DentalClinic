@@ -3,8 +3,10 @@ package DentalClinic.dentalclinic.service;
 import DentalClinic.dentalclinic.repository.RefreshTokenRepository;
 import DentalClinic.dentalclinic.repository.UserRepository;
 import DentalClinic.dentalclinic.repository.entities.RefreshToken;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -35,6 +37,16 @@ public class RefreshTokenService {
             throw new RuntimeException(token.getToken() + "Refresh token was expired");
         }
         return token;
+    }
+
+    public String resolveRefreshToken(HttpServletRequest request){
+        String refreshTokenHeader = request.getHeader("Refresh-Token");
+
+        if (StringUtils.hasText(refreshTokenHeader)) {
+            return refreshTokenHeader;
+        }
+
+        return null;
     }
 
 }

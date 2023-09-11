@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collection;
 
 @RestController
@@ -55,7 +56,7 @@ public class DentistController {
     }
 
 
-    @GetMapping()
+    @GetMapping() //revisar
     @PreAuthorize("hasRole('ROLE_ADMIN' , 'ROLE_USER')")
     public ResponseEntity<Collection<DentistDto>> getAllDentist() throws ResourceNotFoundException {
         return ResponseEntity.ok().body(dentistService.getAllDentists());
@@ -63,10 +64,10 @@ public class DentistController {
 
 
 
-    @GetMapping("/{dentistId}/appointments/getByDentist")
-    @PreAuthorize("hasRole('ROLE_ADMIN' , 'ROLE_USER')")
-    public ResponseEntity<Collection<AppointmentDto>> findAppointmentByDentist(@RequestBody DentistDto dentistDto) throws ResourceNotFoundException {
-        return ResponseEntity.ok().body(appointmentService.findAppointmentByDentist(dentistDto));
+    @GetMapping("/appointments/getByDentist/{dentistId}")
+    @PreAuthorize("hasRole('ROLE_USER' , 'ROLE_ADMIN')")
+    public ResponseEntity<Collection<AppointmentDto>> findAppointmentByDentist(@PathVariable Long dentistId ,  Principal P) throws ResourceNotFoundException {
+        return ResponseEntity.ok().body(appointmentService.findAppointmentByDentistId(dentistId));
     }
 
 

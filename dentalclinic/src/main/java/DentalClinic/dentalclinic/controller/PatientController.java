@@ -2,14 +2,17 @@ package DentalClinic.dentalclinic.controller;
 
 import DentalClinic.dentalclinic.exceptions.ObjectAlreadyExistException;
 import DentalClinic.dentalclinic.exceptions.ResourceNotFoundException;
+import DentalClinic.dentalclinic.model.AddressDto;
 import DentalClinic.dentalclinic.model.AppointmentDto;
 import DentalClinic.dentalclinic.model.DentistDto;
 import DentalClinic.dentalclinic.model.PatientDto;
+import DentalClinic.dentalclinic.repository.entities.Address;
 import DentalClinic.dentalclinic.repository.entities.Dentist;
 import DentalClinic.dentalclinic.repository.entities.Patient;
 import DentalClinic.dentalclinic.service.AppointmentService;
 import DentalClinic.dentalclinic.service.DentistService;
 import DentalClinic.dentalclinic.service.PatientService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,11 +29,10 @@ public class PatientController {
     private final PatientService patientService;
     private final AppointmentService appointmentService;
 
-
     //    PATIENT
 
     @PostMapping()
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> createPatient(@RequestBody PatientDto patientDto, Principal p) throws ObjectAlreadyExistException {
         patientService.createPatient(patientDto);
         return ResponseEntity.ok("Patient " + patientDto.getFirstname() + " successfully persist");
@@ -50,7 +52,7 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getPatient(id));
     }
 
-    @GetMapping()
+    @GetMapping() // Arreglar para que me devuelva la lista
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> getAllPatients() throws ResourceNotFoundException {
         patientService.getAllPatients();
@@ -66,10 +68,10 @@ public class PatientController {
         return ResponseEntity.ok().body("Appointment " + appointmentDto.getAppointmentDate() + " successfully persist");
     }
 
-    @GetMapping("/appointments/getByPatient")
+    @GetMapping("/appointments/getByPatient/{patientId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Collection<AppointmentDto>> findAppointmentByPatient(@RequestBody PatientDto patientDto) throws ResourceNotFoundException {
-        return ResponseEntity.ok().body(appointmentService.findAppointmentByPatient(patientDto));
+    public ResponseEntity<Collection<AppointmentDto>> findAppointmentByPatient(@PathVariable Long patientId , Principal P) throws ResourceNotFoundException {
+        return ResponseEntity.ok().body(appointmentService.findAppointmentByPatientId(patientId));
     }
 
     @DeleteMapping("/appointments/{id}")
@@ -86,12 +88,11 @@ public class PatientController {
     }
 
 
-
     //DENTIST
 
     @GetMapping("/dentists/getDentistByFullName/{firstname}/{surname}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Dentist> getDentistByFullName(@PathVariable String firstname , @PathVariable String surname) throws ResourceNotFoundException {
+    public ResponseEntity<Dentist> getDentistByFullName(@PathVariable String firstname , @PathVariable String surname ) throws ResourceNotFoundException {
         return ResponseEntity.ok(dentistService.getDentistByFirstnameAndSurname(firstname , surname));
     }
     @GetMapping("/dentist")

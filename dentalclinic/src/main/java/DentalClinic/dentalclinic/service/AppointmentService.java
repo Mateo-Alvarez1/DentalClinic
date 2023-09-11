@@ -3,7 +3,6 @@ import DentalClinic.dentalclinic.exceptions.ObjectAlreadyExistException;
 import DentalClinic.dentalclinic.exceptions.ResourceNotFoundException;
 import DentalClinic.dentalclinic.model.AppointmentDto;
 import DentalClinic.dentalclinic.model.DentistDto;
-import DentalClinic.dentalclinic.model.PatientDto;
 import DentalClinic.dentalclinic.repository.AppointmentRepository;
 import DentalClinic.dentalclinic.repository.entities.Appointment;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,8 +87,8 @@ public class AppointmentService implements IAppointmentService{
 
 
     @Override
-    public Collection<AppointmentDto> findAppointmentByPatient(PatientDto patientDto) throws ResourceNotFoundException {
-        List<Appointment> appointments = appointmentRepository.findAppointmentByPatient(patientDto);
+    public Collection<AppointmentDto> findAppointmentByPatientId(Long patientId) throws ResourceNotFoundException {
+        Collection<Appointment> appointments = appointmentRepository.findAppointmentByPatientId(patientId);
         Set<AppointmentDto> appointmentDtos = new HashSet<>();
         for ( Appointment appointment : appointments ) {
             log.info("An appointment was found for this patient");
@@ -103,8 +102,8 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public Collection<AppointmentDto> findAppointmentByDentist(DentistDto dentistDto) throws ResourceNotFoundException {
-        List<Appointment> appointments = appointmentRepository.findAppointmentByDentist(dentistDto);
+    public Collection<AppointmentDto> findAppointmentByDentistId(Long dentistId) throws ResourceNotFoundException {
+        Collection<Appointment> appointments = appointmentRepository.findAppointmentByDentistId(dentistId);
         Set<AppointmentDto> appointmentDtos = new HashSet<>();
         for ( Appointment appointment : appointments ) {
             log.info("An appointment was found for that dentist");
