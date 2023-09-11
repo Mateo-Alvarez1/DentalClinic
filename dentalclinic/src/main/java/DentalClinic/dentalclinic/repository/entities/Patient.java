@@ -1,5 +1,6 @@
 package DentalClinic.dentalclinic.repository.entities;
 
+import DentalClinic.dentalclinic.model.PatientDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,13 +20,13 @@ public class Patient{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "firstname")
     private String firstname;
 
-    @Column(nullable = false)
+    @Column(name = "surname")
     private String surname;
 
-    @Column(nullable = false)
+    @Column(name = "email")
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -42,4 +43,14 @@ public class Patient{
         this.email = email;
         this.address = address;
     }
+
+
+    public Patient(String firstname, String surname, String email, String unknown, PatientDto patientDto) {
+    }
+
+    public Patient(long id, String firstname, String surname, String email, Address address) {
+
+    }
+
+
 }

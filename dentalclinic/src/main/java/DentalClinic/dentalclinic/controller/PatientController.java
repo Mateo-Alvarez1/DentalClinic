@@ -30,7 +30,7 @@ public class PatientController {
     //    PATIENT
 
     @PostMapping("/create")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> createPatient(@RequestBody PatientDto patientDto) throws ObjectAlreadyExistException {
         patientService.createPatient(patientDto);
         return ResponseEntity.ok("Patient " + patientDto.getFirstname() + " successfully persist");

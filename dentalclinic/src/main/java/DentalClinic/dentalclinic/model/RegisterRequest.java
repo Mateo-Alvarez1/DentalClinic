@@ -19,4 +19,7 @@ public class RegisterRequest {
     private String license;
     private Address address;
 
+    public RegisterRequest(String firstname, String surname, String email, String password, String license) {
+
+    }
 }

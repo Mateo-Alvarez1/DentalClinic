@@ -60,8 +60,8 @@ public class DentistService implements IDentistService{
     @Override
     public void deleteDentist(Long id) throws ResourceNotFoundException {
 
-        Optional<Dentist> optionalDentist = dentistRepository.findById(id);
-        if (!optionalDentist.isPresent()){
+        Boolean optionalDentist = dentistRepository.existsById(id);
+        if (!optionalDentist){
             log.error("Dentist with id " + id + " not found in the database");
             throw new ResourceNotFoundException("Dentist not found in the database");
         }

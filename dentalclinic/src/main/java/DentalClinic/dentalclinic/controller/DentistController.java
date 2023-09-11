@@ -25,34 +25,34 @@ public class DentistController {
 
 
     //DENTIST
-    @PostMapping("/create")
+    @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> createDentist(@RequestBody DentistDto dentistDto) throws ObjectAlreadyExistException {
         dentistService.createDentist(dentistDto);
         return ResponseEntity.ok("Dentist " + dentistDto.getFirstname() + " successfully persist");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> updateDentist(@RequestBody DentistDto dentistDto, @PathVariable Long id) throws ResourceNotFoundException {
         dentistService.updateDentist(dentistDto , id);
         return ResponseEntity.ok().body("Dentist " + id + " successfully updated");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteDentist(@PathVariable Long id) throws ResourceNotFoundException {
         dentistService.deleteDentist(id);
         return ResponseEntity.ok().body("Dentist " + id + " successfully deleted");
     }
 
-    @GetMapping("/getDentist/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Dentist> getDentist(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok(dentistService.getDentist(id));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN' , 'ROLE_USER')")
     public ResponseEntity<Collection<DentistDto>> getAllDentist() throws ResourceNotFoundException {
         return ResponseEntity.ok().body(dentistService.getAllDentists());

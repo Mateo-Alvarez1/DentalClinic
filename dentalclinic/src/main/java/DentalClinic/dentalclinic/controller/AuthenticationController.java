@@ -11,6 +11,7 @@ import DentalClinic.dentalclinic.service.JwtService;
 import DentalClinic.dentalclinic.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class AuthenticationController {
     private final JwtService jwtService;
 
     @PostMapping("/register")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?>registerAndCreateUser(@RequestBody RegisterRequest registerRequest) throws ObjectAlreadyExistException {
         return ResponseEntity.ok().body(authenticationService.registerUser( registerRequest ));
     }
@@ -36,7 +38,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/autheticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest){
+    public ResponseEntity<AuthenticationResponse> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest){
         return ResponseEntity.ok().body(authenticationService.authenticateUser(authenticationRequest));
     }
 

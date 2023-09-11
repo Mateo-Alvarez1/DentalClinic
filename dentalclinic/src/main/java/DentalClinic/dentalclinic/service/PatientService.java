@@ -28,6 +28,7 @@ public class PatientService implements IPatientService{
             throw new ObjectAlreadyExistException("Patient already exists in the database");
         }
 
+
         Patient patient = new Patient();
         patient.setFirstname(patientDto.getFirstname());
         patient.setSurname(patientDto.getSurname());
@@ -60,8 +61,8 @@ public class PatientService implements IPatientService{
     @Override
     public void deletePatient(Long id) throws ResourceNotFoundException {
 
-        Optional<Patient> optionalPatient = patientRepository.findById(id);
-        if (!optionalPatient.isPresent()){
+        Boolean optionalPatient = patientRepository.existsById(id);
+        if (!optionalPatient){
             log.error("Patient with id " + id + " not found in the database");
             throw new ResourceNotFoundException("Patient not found in the database");
         }

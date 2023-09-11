@@ -17,13 +17,18 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "Users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "firstname")
     private String firstname;
+    @Column(name = "lastname")
     private String lastname;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -56,5 +61,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(String firstname, String lastname, String email, String password, Role role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 }

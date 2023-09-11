@@ -28,8 +28,11 @@ public class Appointment {
     @JoinColumn(name = "dentist_id" , referencedColumnName = "id")
     private Dentist dentist;
 
-    @Column(nullable = false)
+    @Column(name = "appointmentDate")
     private LocalDateTime appointmentDate;
 
+    public Appointment(LocalDateTime appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
 
 }
