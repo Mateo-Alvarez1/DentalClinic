@@ -23,7 +23,6 @@ public class DentistController {
     private final DentistService dentistService;
     private final AppointmentService appointmentService;
 
-
     //DENTIST
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -32,12 +31,14 @@ public class DentistController {
         return ResponseEntity.ok("Dentist " + dentistDto.getFirstname() + " successfully persist");
     }
 
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> updateDentist(@RequestBody DentistDto dentistDto, @PathVariable Long id) throws ResourceNotFoundException {
         dentistService.updateDentist(dentistDto , id);
         return ResponseEntity.ok().body("Dentist " + id + " successfully updated");
     }
+
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -46,11 +47,13 @@ public class DentistController {
         return ResponseEntity.ok().body("Dentist " + id + " successfully deleted");
     }
 
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Dentist> getDentist(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok(dentistService.getDentist(id));
     }
+
 
     @GetMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN' , 'ROLE_USER')")
@@ -59,21 +62,21 @@ public class DentistController {
     }
 
 
-    //APPOINTMENT
-    @GetMapping("/appointments/getByDentist")
+
+    @GetMapping("/{dentistId}/appointments/getByDentist")
     @PreAuthorize("hasRole('ROLE_ADMIN' , 'ROLE_USER')")
     public ResponseEntity<Collection<AppointmentDto>> findAppointmentByDentist(@RequestBody DentistDto dentistDto) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(appointmentService.findAppointmentByDentist(dentistDto));
     }
 
 
-    @GetMapping("/appointments/getAll")
+    @GetMapping("/appointments")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Collection<AppointmentDto>> getAllAppointments() throws ResourceNotFoundException {
         return ResponseEntity.ok().body(appointmentService.getAllAppointments());
     }
 
-    @PutMapping("/appointments/update/{id}")
+    @PutMapping("/appointments/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> updateAppointment(@RequestBody AppointmentDto appointmentDto , @PathVariable Long id) throws ResourceNotFoundException {
         appointmentService.updateAppointment(appointmentDto , id);
@@ -81,15 +84,14 @@ public class DentistController {
     }
 
     //PATIENT
-
-    @DeleteMapping("/patients/delete/{id}")
+    @DeleteMapping("/patients/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deletePatient(@PathVariable Long id) throws ResourceNotFoundException {
         patientService.deletePatient(id);
         return ResponseEntity.ok().body("Patient " + id + " successfully deleted");
     }
 
-    @GetMapping("/patients/getAll")
+    @GetMapping("/patients")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> getAllPatients() throws ResourceNotFoundException {
         patientService.getAllPatients();

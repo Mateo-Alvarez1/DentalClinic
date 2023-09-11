@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import java.security.Principal;
 import java.util.Collection;
 
 @RestController
@@ -29,14 +29,14 @@ public class PatientController {
 
     //    PATIENT
 
-    @PostMapping("/create")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> createPatient(@RequestBody PatientDto patientDto) throws ObjectAlreadyExistException {
+    @PostMapping()
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<String> createPatient(@RequestBody PatientDto patientDto, Principal p) throws ObjectAlreadyExistException {
         patientService.createPatient(patientDto);
         return ResponseEntity.ok("Patient " + patientDto.getFirstname() + " successfully persist");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String>updatePatient(@RequestBody PatientDto patientDto , @PathVariable Long id) throws ResourceNotFoundException {
         patientService.updatePatient(patientDto , id);
@@ -44,13 +44,13 @@ public class PatientController {
     }
 
 
-    @GetMapping("getPatient/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Patient> getPatient(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok(patientService.getPatient(id));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> getAllPatients() throws ResourceNotFoundException {
         patientService.getAllPatients();
@@ -59,7 +59,7 @@ public class PatientController {
 
 
     //APPOINTMENT
-    @PostMapping("/appointments/create")
+    @PostMapping("/appointments")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> createAppointment(@RequestBody AppointmentDto appointmentDto) throws ObjectAlreadyExistException {
         appointmentService.createAppointment(appointmentDto);
@@ -72,14 +72,14 @@ public class PatientController {
         return ResponseEntity.ok().body(appointmentService.findAppointmentByPatient(patientDto));
     }
 
-    @DeleteMapping("/appointments/delete/{id}")
+    @DeleteMapping("/appointments/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> deleteAppointment(@PathVariable Long id) throws ResourceNotFoundException {
         appointmentService.deleteAppointment(id);
         return ResponseEntity.ok().body("Appointment " + id + " successfully deleted");
     }
 
-    @GetMapping("/appointments/getAll")
+    @GetMapping("/appointments")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Collection<AppointmentDto>> getAllAppointments() throws ResourceNotFoundException {
         return ResponseEntity.ok().body(appointmentService.getAllAppointments());
@@ -94,7 +94,7 @@ public class PatientController {
     public ResponseEntity<Dentist> getDentistByFullName(@PathVariable String firstname , @PathVariable String surname) throws ResourceNotFoundException {
         return ResponseEntity.ok(dentistService.getDentistByFirstnameAndSurname(firstname , surname));
     }
-    @GetMapping("/dentist/getAll")
+    @GetMapping("/dentist")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Collection<DentistDto>> getAllDentist() throws ResourceNotFoundException {
         return ResponseEntity.ok().body(dentistService.getAllDentists());

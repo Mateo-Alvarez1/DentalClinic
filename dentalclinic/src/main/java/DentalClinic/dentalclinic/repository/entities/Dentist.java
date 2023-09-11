@@ -33,7 +33,7 @@ public class Dentist{
     @Column(name = "email")
     private String email;
 
-    @Column(name = "license")
+    @Column()
     private String license;
 
     @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
