@@ -12,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
+import org.springframework.boot.test.context.SpringBootTest;
 import java.util.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -20,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
+
 @ExtendWith(MockitoExtension.class)
 class DentistServiceTest {
 
@@ -27,8 +29,6 @@ class DentistServiceTest {
     private DentistRepository dentistRepository;
     @Mock
     private ObjectMapper mapper;
-    @Mock
-    private Logger log;
     private DentistService dentistService;
 
     @BeforeEach

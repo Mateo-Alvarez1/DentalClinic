@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dentalclinic
+      MYSQL_USER: dentalclinic
+      MYSQL_PASSWORD: dentalclinic
+
+  # Aplicación
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dentalclinic:latest
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql

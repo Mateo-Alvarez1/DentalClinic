@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -205,7 +207,7 @@ class PatientServiceTest {
 
         assertThatThrownBy( () -> patientService.getPatient(id))
                 .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessageContaining("Dentist not found in the database");
+                .hasMessageContaining("Patient not found in the database");
 
         verify(patientRepository , never()).save(any());
 
